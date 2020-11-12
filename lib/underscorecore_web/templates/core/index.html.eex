@@ -1,0 +1,28 @@
+<h1>Listing Cores</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Order</th>
+
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+<%= for core <- @cores do %>
+    <tr>
+      <td><%= core.name %></td>
+      <td><%= core.order %></td>
+
+      <td>
+        <span><%= link "Show", to: Routes.core_path(@conn, :show, core) %></span>
+        <span><%= link "Edit", to: Routes.core_path(@conn, :edit, core) %></span>
+        <span><%= link "Delete", to: Routes.core_path(@conn, :delete, core), method: :delete, data: [confirm: "Are you sure?"] %></span>
+      </td>
+    </tr>
+<% end %>
+  </tbody>
+</table>
+
+<span><%= link "New Core", to: Routes.core_path(@conn, :new) %></span>

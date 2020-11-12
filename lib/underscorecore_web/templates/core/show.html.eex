@@ -1,0 +1,45 @@
+<span><%= link "Edit", to: Routes.core_path(@conn, :edit, @core) %></span>
+<span><%= link "Back", to: Routes.core_path(@conn, :index) %></span>
+<h1><%= @core.name %></h1>
+
+<%= form_for @conn, Routes.core_path(@conn, :show, @core), [as: :search], fn f -> %>
+
+  <%= text_input f, :term %>
+
+  <div>
+    <%= submit "Search" %>
+  </div>
+<% end %>
+
+
+<%= if assigns[:search_results] do %>
+  <div style="display: flex;">
+   <%= for {artist, album} <- @search_results do %>
+   <div style="display: flex; flex-direction: column">
+    <div><%= artist.name %></div>
+    <div><%= album.name %></div>
+    <img style="width:300px; height; 300px;"src="<%= album.artwork_url %>">
+
+    <%= form_for @conn, "/cores/1/add",  [as: :core_album],  fn f -> %>
+      <%= hidden_input f, :core_id, value: @core.id %>
+      <%= hidden_input f, :album_id, value: album.id %>
+      <%= submit "Add" %>
+    <% end %>
+    </div>
+  <% end %>
+
+</div>
+<% end %>
+
+
+
+  <div style="display: grid; grid-template-columns: repeat(3,minmax(0,1fr))!important; grid-gap: 8px;">
+   <%= for album <- @core_albums do %>
+   <div>
+    <div><%= album.artist_name%></div>
+    <div><%= album.album_name %></div>
+    <img style="width:300px; height; 300px;"src="<%= album.artwork_url %>">
+    </div>
+  <% end %>
+
+</div>

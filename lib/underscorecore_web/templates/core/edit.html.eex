@@ -1,0 +1,5 @@
+<h1>Edit Core</h1>
+
+<%= render "form.html", Map.put(assigns, :action, Routes.core_path(@conn, :update, @core)) %>
+
+<span><%= link "Back", to: Routes.core_path(@conn, :index) %></span>

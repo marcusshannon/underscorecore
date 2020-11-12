@@ -14,9 +14,10 @@ defmodule Underscorecore.Application do
       # Start the PubSub system
       {Phoenix.PubSub, name: Underscorecore.PubSub},
       # Start the Endpoint (http/https)
-      UnderscorecoreWeb.Endpoint
+      UnderscorecoreWeb.Endpoint,
       # Start a worker by calling: Underscorecore.Worker.start_link(arg)
       # {Underscorecore.Worker, arg}
+      {Finch, name: Underscorecore.Finch}
     ]
 
     # See https://hexdocs.pm/elixir/Supervisor.html

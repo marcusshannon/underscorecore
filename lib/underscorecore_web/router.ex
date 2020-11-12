@@ -17,6 +17,11 @@ defmodule UnderscorecoreWeb.Router do
     pipe_through :browser
 
     get "/", PageController, :index
+    resources "/cores", CoreController
+    resources "/artists", ArtistController
+    resources "/albums", AlbumController
+    post "/cores/:id", CoreController, :search
+    post "/cores/:id/add", CoreController, :add
   end
 
   # Other scopes may use custom stacks.
