@@ -20,7 +20,7 @@
     <div><%= album.name %></div>
     <img style="width:300px; height; 300px;"src="<%= album.artwork_url %>">
 
-    <%= form_for @conn, "/cores/1/add",  [as: :core_album],  fn f -> %>
+    <%= form_for @conn, "/cores/#{@core.id}/add",  [as: :core_album],  fn f -> %>
       <%= hidden_input f, :core_id, value: @core.id %>
       <%= hidden_input f, :album_id, value: album.id %>
       <%= submit "Add" %>
