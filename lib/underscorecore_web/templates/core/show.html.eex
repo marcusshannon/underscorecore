@@ -1,45 +1,44 @@
-<span><%= link "Edit", to: Routes.core_path(@conn, :edit, @core) %></span>
-<span><%= link "Back", to: Routes.core_path(@conn, :index) %></span>
-<h1><%= @core.name %></h1>
+<div class="container mx-auto">
+  <div class="h-5"></div>
+  <h1 class="order-1 text-5xl leading-none font-extrabold text-gray-100">
+    <%= @core.name %>
+  </h1>
+  <div class="h-2"></div>
 
-<%= form_for @conn, Routes.core_path(@conn, :show, @core), [as: :search], fn f -> %>
+  <%= form_for @conn, Routes.core_path(@conn, :show, @core), [as: :search], fn f -> %>
+    <div class="flex">
+      <%= text_input f, :term, class: "rounded form-input block sm:text-sm sm:leading-5 rounded-none", placeholder: "search for album/artist" %>
+      <div class="w-2"></div>
+      <span class="inline-flex rounded">
+        <%= submit "Search", class: "inline-flex items-center px-4 py-2 border border-gray-300 text-sm leading-5 font-medium rounded text-black bg-white hover:text-gray-700 focus:outline-none focus:border-blue-300 focus:shadow-outline-blue active:text-gray-800 active:bg-gray-50 transition ease-in-out duration-150" %>
+      </span>
+    </div>
+  <% end %>
 
-  <%= text_input f, :term %>
+  <%= if not is_nil(assigns[:search_results]) and length(assigns[:search_results]) > 0 do %>
+    <div class="h-4"></div>
+    <div class="grid grid-cols-3 gap-4">
+      <%= for {artist, album} <- @search_results do %>
+        <div>
+          <img class="block rounded shadow-lg" src="<%= album.artwork_url %>">
+          <div class="h-1"></div>
+          <div class="text-white text-sm truncate"><%= album.name %></div>
+          <div class="text-white font-bold text-xs"><%= artist.name %></div>
+          <%= form_for @conn, "/cores/#{@core.id}/add",  [as: :core_album, class: "leading-none"],  fn f -> %>
+            <%= hidden_input f, :core_id, value: @core.id %>
+            <%= hidden_input f, :album_id, value: album.id %>
+            <%= submit "+Add" , class: "text-white underline text-xs" %>
+          <% end %>
+        </div>
+      <% end %>
+    </div>
+  <% end %>
 
-  <div>
-    <%= submit "Search" %>
-  </div>
-<% end %>
+  <div class="h-4"></div>
 
-
-<%= if assigns[:search_results] do %>
-  <div style="display: flex;">
-   <%= for {artist, album} <- @search_results do %>
-   <div style="display: flex; flex-direction: column">
-    <div><%= artist.name %></div>
-    <div><%= album.name %></div>
-    <img style="width:300px; height; 300px;"src="<%= album.artwork_url %>">
-
-    <%= form_for @conn, "/cores/#{@core.id}/add",  [as: :core_album],  fn f -> %>
-      <%= hidden_input f, :core_id, value: @core.id %>
-      <%= hidden_input f, :album_id, value: album.id %>
-      <%= submit "Add" %>
+  <div class="grid grid-cols-3 gap-4">
+    <%= for album <- @core_albums do %>
+      <img class="block rounded shadow-lg" src="<%= album.artwork_url %>">
     <% end %>
-    </div>
-  <% end %>
-
-</div>
-<% end %>
-
-
-
-  <div style="display: grid; grid-template-columns: repeat(3,minmax(0,1fr))!important; grid-gap: 8px;">
-   <%= for album <- @core_albums do %>
-   <div>
-    <div><%= album.artist_name%></div>
-    <div><%= album.album_name %></div>
-    <img style="width:300px; height; 300px;"src="<%= album.artwork_url %>">
-    </div>
-  <% end %>
-
+  </div>
 </div>
