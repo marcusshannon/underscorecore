@@ -1,27 +1,28 @@
 <div class="container mx-auto">
-  <div class="h-5"></div>
-  <h1 class="order-1 text-5xl leading-none font-extrabold text-white">
-    Cores
-  </h1>
-
-  <span class="text-white underline leading-none"><%= link "+ create core", to: Routes.core_path(@conn, :new) %></span>
   <div class="h-4"></div>
-  <div class="bg-white overflow-hidden shadow sm:rounded-lg">
-    <div class="px-4">
-      <ul class="divide-y divide-gray-200">
-      <%= for core <- @cores do %>
-        <li class="py-4 flex space-x-3">
-          <div class="flex flex-col">
-            <span class="text-sm leading-5 font-medium text-gray-900"><%= core.name %></span>
-            <span class="text-sm leading-5 text-gray-500">
-              <span><%= link "Show", to: Routes.core_path(@conn, :show, core) %></span>
-              <span><%= link "Edit", to: Routes.core_path(@conn, :edit, core) %></span>
-            </span>
-          </div>
-        </li>
-      <% end %>
-      </ul>
-    </div>
-  </div>
+  <%= component "page_title.html" do %>
+    Cores
+  <% end %>
+  
+  <div class="h-2"></div>
+
+  <%= component "action_link.html" do %>
+    <%= link "create", to: Routes.core_path(@conn, :new) %>
+  <% end %>
+
+  <div class="h-4"></div>
+  <div class="h-px w-full bg-white"></div>
+  <div class="h-4"></div>
+
+  <ul>
+    <%= for core <- @cores do %>
+      <li>
+        <%= component "action_link.html" do %>
+          <%= link core.name, to: Routes.core_path(@conn, :show, core) %>
+        <% end %>
+      </li>
+    <% end %>
+  </ul>
+
   <div class="h-5"></div>
 </div>

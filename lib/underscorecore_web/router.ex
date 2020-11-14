@@ -22,6 +22,7 @@ defmodule UnderscorecoreWeb.Router do
     resources "/albums", AlbumController
     post "/cores/:id", CoreController, :search
     post "/cores/:id/add", CoreController, :add
+    get "/cores/:id/add", CoreController, :add_search
   end
 
   # Other scopes may use custom stacks.

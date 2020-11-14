@@ -1,0 +1,5 @@
+<div class="text-white">
+  <span>[</span>
+  <span class="leading-none text-blue-300 hover:underline"><%= @children %></span>
+  <span>]</span>
+</div>

@@ -3,8 +3,8 @@ defmodule Underscorecore.Cores.CoreAlbum do
   import Ecto.Changeset
 
   schema "cores_albums" do
-    field :core_id, :integer
-    field :album_id, :integer
+    belongs_to :core, Underscorecore.Cores.Core
+    belongs_to :album, Underscorecore.Music.Album
 
     timestamps()
   end

@@ -68,6 +68,7 @@ defmodule UnderscorecoreWeb do
 
       import UnderscorecoreWeb.ErrorHelpers
       import UnderscorecoreWeb.Gettext
+      import UnderscorecoreWeb.ComponentHelpers
       alias UnderscorecoreWeb.Router.Helpers, as: Routes
     end
   end

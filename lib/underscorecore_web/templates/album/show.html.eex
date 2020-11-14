@@ -1,0 +1,32 @@
+<div class="container mx-auto">
+  
+  <div class="h-4"></div>
+
+  <%= component "page_title.html" do %>
+    <%= @album.name %>
+  <% end %>
+
+  <div class="h-2"></div>
+
+  <%= component "page_subtitle.html" do %>
+    <%= @album.artist.name %>
+  <% end %>
+
+  <div class="h-4"></div>
+
+  <img class="block rounded shadow-lg" src="<%= @album.artwork_url %>">
+
+  <div class="h-8"></div>
+
+  <%= component "page_title.html" do %>
+    Found in...
+  <% end %>
+  <div class="h-4"></div>
+  <%= component "list.html" do %>
+    <%= for core <- @cores_with_album do %>
+      <%= component "list_item.html", to: "/cores/#{core.id}" do %>
+        <%= core.name %>
+      <% end %>
+    <% end %>
+  <% end %>
+</div>

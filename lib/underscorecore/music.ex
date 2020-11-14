@@ -27,5 +27,5 @@ defmodule Underscorecore.Music do
     Repo.all(Album)
   end
 
-  def get_album!(id), do: Repo.get!(Album, id)
+  def get_album!(id), do: Repo.get!(Album, id) |> Repo.preload(:artist)
 end

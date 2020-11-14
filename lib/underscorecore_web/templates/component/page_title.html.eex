@@ -1,0 +1,3 @@
+<h1 class="text-5xl leading-none font-extrabold text-white">
+  <%= @children %>
+</h1>

@@ -17,11 +17,7 @@ defmodule UnderscorecoreWeb.CoreController do
     render(conn, "new.html", changeset: changeset)
   end
 
-  def add(conn, %{"id" => id, "core_album" => core_album_params}) do
-      Underscorecore.Cores.create_core_album(core_album_params)
-      core = Cores.get_core!(id)
-      redirect(conn, to: Routes.core_path(conn, :show, core))
-    end
+
 
   def create(conn, %{"core" => core_params}) do
     case Cores.create_core(core_params) do
@@ -35,13 +31,7 @@ defmodule UnderscorecoreWeb.CoreController do
     end
   end
 
-  def search(conn, %{"id" => id, "search" => search_params}) do
-    core = Cores.get_core!(id)
-    core_albums = Cores.get_core_albums(id)
-    search_results = Underscorecore.Search.search(search_params["term"])
-    render(conn, "show.html", core: core, core_albums: core_albums, search_results: search_results)
 
-  end
 
   def show(conn, %{"id" => id}) do
     core = Cores.get_core!(id)
@@ -76,5 +66,26 @@ defmodule UnderscorecoreWeb.CoreController do
     conn
     |> put_flash(:info, "Core deleted successfully.")
     |> redirect(to: Routes.core_path(conn, :index))
+  end
+
+  def add_search(conn, %{"id" => id}) do 
+    core = Cores.get_core!(id)
+    core_albums = Cores.get_core_albums(id)
+    render(conn, "add_search.html", core: core)
+  end
+
+  def add(conn, %{"id" => id, "core_album" => core_album_params}) do
+    Underscorecore.Cores.create_core_album(core_album_params)
+    core = Cores.get_core!(id)
+    
+    conn
+    |> put_flash(:success, "Album successfully added to core")
+    |> render("add_search.html", core: core)
+  end
+
+  def search(conn, %{"id" => id, "search" => search_params}) do
+    core = Cores.get_core!(id)
+    search_results = Underscorecore.Search.search(search_params["term"])
+    render(conn, "add_search.html", core: core, search_results: search_results)
   end
 end

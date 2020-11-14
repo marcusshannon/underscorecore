@@ -28,7 +28,8 @@ defmodule UnderscorecoreWeb.AlbumController do
 
   def show(conn, %{"id" => id}) do
     album = Music.get_album!(id)
-    render(conn, "show.html", album: album)
+    cores_with_album = Underscorecore.Cores.cores_with_album(album.id)
+    render(conn, "show.html", album: album, cores_with_album: cores_with_album)
   end
 
   def edit(conn, %{"id" => id}) do

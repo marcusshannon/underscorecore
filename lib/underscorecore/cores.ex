@@ -107,4 +107,12 @@ defmodule Underscorecore.Cores do
   def get_core_albums(core_id) do
     Repo.all(from a in "albums", where: a.id in subquery(from c in CoreAlbum, select: c.album_id, where: c.core_id == ^core_id), join: ar in "artists", on: a.artist_id == ar.id, select: %{album_id: a.id, album_name: a.name, artwork_url: a.artwork_url, artist_id: ar.id, artist_name: ar.name})
   end
+
+  def found_in(album_id) do
+    Repo.all(from ca in Underscorecore.Cores.CoreAlbum, where: ca.album_id == ^album_id) |> Repo.preload([:core])
+  end
+
+  def cores_with_album(album_id) do
+      Repo.all(from ca in Underscorecore.Cores.CoreAlbum, where: ca.album_id == ^album_id) |> Repo.preload([:album, :core]) |> Enum.map(&(&1.core))
+  end
 end
