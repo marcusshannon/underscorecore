@@ -53,7 +53,7 @@ defmodule CreateCoreScript do
       rescue
           x -> x
       end
-      Process.sleep(500)
+      Process.sleep(1500)
     end)
   end
 end
