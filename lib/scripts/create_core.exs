@@ -44,6 +44,7 @@ defmodule CreateCoreScript do
     core = Underscorecore.Repo.get_by!(Underscorecore.Cores.Core, name: core_name)
 
     Enum.each(search_terms, fn search_term -> 
+      Process.sleep(2000)
       try do
         search_results = Underscorecore.Search.search(search_term)
         unless length(search_results) == 0 do
@@ -53,7 +54,6 @@ defmodule CreateCoreScript do
       rescue
           x -> x
       end
-      Process.sleep(1500)
     end)
   end
 end
