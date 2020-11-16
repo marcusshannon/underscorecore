@@ -45,7 +45,8 @@ defmodule Underscorecore.MixProject do
       {:gettext, "~> 0.11"},
       {:jason, "~> 1.0"},
       {:plug_cowboy, "~> 2.0"},
-      {:finch, "~> 0.5.2"}
+      {:finch, "~> 0.5.2"},
+      {:html_entities, "~> 0.5.1"}
     ]
   end
 

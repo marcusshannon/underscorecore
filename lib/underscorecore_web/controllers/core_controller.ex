@@ -36,6 +36,7 @@ defmodule UnderscorecoreWeb.CoreController do
   def show(conn, %{"id" => id}) do
     core = Cores.get_core!(id)
     core_albums = Cores.get_core_albums(id)
+    IO.inspect core_albums
     render(conn, "show.html", core: core, core_albums: core_albums)
   end
 
