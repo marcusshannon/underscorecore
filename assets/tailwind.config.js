@@ -7,6 +7,7 @@ module.exports = {
   },
   purge: [
     '../lib/underscorecore_web/templates/**/*.html.eex',
+    '../lib/underscorecore_web/templates/**/*.html.leex',
   ],
   theme: {
     extend: {
