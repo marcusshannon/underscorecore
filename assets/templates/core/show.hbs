@@ -1,26 +1,30 @@
 <div class="container mx-auto">
-  
   <div class="h-4"></div>
-
-  <%= component "page_title.html" do %>
+  {{#> page_title }} 
     <%= @core.name %>
-  <% end %>
-  
+  {{/page_title}}
+
   <div class="flex">
-    <%= component "action_link.html" do %>
+    {{#> action_link }}
       <%= link "index", to: Routes.core_path(@conn, :index) %>
-    <% end %>
+    {{/action_link}}
     <div class="w-1"></div>
-    <%= component "action_link.html" do %>
-      <%= link "edit details", to: Routes.core_path(@conn, :edit, @core) %>
-    <% end %>
+    
+    {{#> action_link }}
+      <%= link "edit meta", to: Routes.core_path(@conn, :edit, @core) %>
+    {{/action_link}}
     <div class="w-1"></div>
-    <%= component "action_link.html" do %>
+    
+    {{#> action_link }}
       <%= link "add albums", to: "/cores/#{@core.id}/add" %>
-    <% end %>
+    {{/action_link}}
+    <div class="w-1"></div>
+    
+    {{#> action_link }}
+      <%= link "edit albums", to: "/cores/#{@core.id}/albums/edit" %>
+    {{/action_link}}
   </div>
 
- 
   <div class="h-4"></div>
 
   <div class="grid grid-cols-3 gap-4">

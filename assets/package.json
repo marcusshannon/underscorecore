@@ -6,7 +6,8 @@
     "deploy": "npx webpack --mode production",
     "watch": "npx webpack --mode development --watch",
     "build-css": "npx tailwindcss build ./css/tailwind.css -o ../priv/static/css/styles.css",
-    "build-css-purge": "NODE_ENV=production npx tailwindcss build ./css/tailwind.css -o ../priv/static/css/styles.css && npx cleancss -o ../priv/static/css/styles.css ../priv/static/css/styles.css"
+    "build-css-purge": "NODE_ENV=production npx tailwindcss build ./css/tailwind.css -o ../priv/static/css/styles.css && npx cleancss -o ../priv/static/css/styles.css ../priv/static/css/styles.css",
+    "build-templates": "node build-templates"
   },
   "dependencies": {
     "@tailwindcss/ui": "^0.7.2",
@@ -14,7 +15,10 @@
     "parcel": "^2.0.0-beta.1",
     "phoenix": "file:../deps/phoenix",
     "phoenix_html": "file:../deps/phoenix_html",
-    "tailwindcss": "^1.9.6"
+    "phoenix_live_view": "file:../deps/phoenix_live_view",
+    "tailwindcss": "^1.9.6",
+    "glob": "^7.1.6",
+    "handlebars": "^4.7.6"
   },
   "devDependencies": {
     "webpack": "^5.4.0",

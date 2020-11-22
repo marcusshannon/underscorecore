@@ -2,15 +2,15 @@
   
   <div class="h-4"></div>
 
-  <%= component "page_title.html" do %>
+  {{#> page_title }}
     <%= @album.name %>
-  <% end %>
+  {{/page_title}}
 
   <div class="h-2"></div>
 
-  <%= component "page_subtitle.html" do %>
-    <%= @album.artist.name %>
-  <% end %>
+  {{#> page_subtitle }}
+    <%= @album.name %>
+  {{/page_subtitle}}
 
   <div class="h-4"></div>
 
@@ -18,15 +18,18 @@
 
   <div class="h-8"></div>
 
-  <%= component "page_title.html" do %>
+  {{#> page_title }}
     Found in...
-  <% end %>
+  {{/page_title}}
+
   <div class="h-4"></div>
-  <%= component "list.html" do %>
+
+  {{#> list }}
     <%= for core <- @cores_with_album do %>
-      <%= component "list_item.html", to: "/cores/#{core.id}" do %>
+      {{#> list_item to="/cores/#{core.id}"}}
         <%= core.name %>
-      <% end %>
+      {{/list_item}}
     <% end %>
-  <% end %>
+  {{/list}}
+
 </div>

@@ -115,4 +115,10 @@ defmodule Underscorecore.Cores do
   def cores_with_album(album_id) do
       Repo.all(from ca in Underscorecore.Cores.CoreAlbum, where: ca.album_id == ^album_id) |> Repo.preload([:album, :core]) |> Enum.map(&(&1.core))
   end
+
+  def delete_core_album(core_id, album_id) do
+    {core_id, _} = Integer.parse(core_id)
+    {album_id, _} = Integer.parse(album_id)
+    Repo.delete_all(from ca in "cores_albums", where: ca.core_id == ^core_id and ca.album_id == ^album_id)
+  end
 end

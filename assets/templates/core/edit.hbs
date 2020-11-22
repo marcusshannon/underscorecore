@@ -1,11 +1,15 @@
 <div class="container mx-auto">
   <div class="h-5"></div>
-  <%= component "page_title.html" do %>
+  {{#> page_title }}
     Edit Core
-  <% end %>
-  <%= component "action_link.html" do %>
-    <%= link "back", to: Routes.core_path(@conn, :show, @core) %>
-  <% end %>
+  {{/page_title}}
+
+
+  {{#> action_link }}
+    <%= link "index", to: Routes.core_path(@conn, :index) %>
+  {{/action_link}}
+
+
   <div class="h-4"></div>
   <div class="bg-white overflow-hidden shadow sm:rounded-lg">
     <div class="p-4">

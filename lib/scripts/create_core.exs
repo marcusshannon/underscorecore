@@ -14,9 +14,9 @@ defmodule CreateCoreScript do
     body["response"]["torrentgroups"]
   end
 
-  
+
   def map_to_search_term(torrent_groups) do
-    Enum.map(torrent_groups, fn torrent_group -> 
+    Enum.map(torrent_groups, fn torrent_group ->
       album = torrent_group["name"] |> HtmlEntities.decode
       artist = (torrent_group["musicInfo"]["artists"] |> List.first())["name"] |> HtmlEntities.decode
       "#{artist} #{album}"
@@ -36,14 +36,14 @@ defmodule CreateCoreScript do
     |> map_to_search_term
 
     core_name = get_core_name(body)
-    
+
     unless Underscorecore.Repo.exists?(from c in "cores", where: c.name == ^core_name) do
       Underscorecore.Repo.insert(%Underscorecore.Cores.Core{name: core_name})
     end
 
     core = Underscorecore.Repo.get_by!(Underscorecore.Cores.Core, name: core_name)
 
-    Enum.each(search_terms, fn search_term -> 
+    Enum.each(search_terms, fn search_term ->
       Process.sleep(2000)
       try do
         search_results = Underscorecore.Search.search(search_term)

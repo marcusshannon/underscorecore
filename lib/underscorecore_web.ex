@@ -24,6 +24,7 @@ defmodule UnderscorecoreWeb do
       import Plug.Conn
       import UnderscorecoreWeb.Gettext
       alias UnderscorecoreWeb.Router.Helpers, as: Routes
+      import Phoenix.LiveView.Controller
     end
   end
 
@@ -37,8 +38,9 @@ defmodule UnderscorecoreWeb do
       import Phoenix.Controller,
         only: [get_flash: 1, get_flash: 2, view_module: 1, view_template: 1]
 
-      # Include shared imports and aliases for views
-      unquote(view_helpers())
+        # Include shared imports and aliases for views
+        unquote(view_helpers())
+      import Phoenix.LiveView.Helpers
     end
   end
 
@@ -48,6 +50,7 @@ defmodule UnderscorecoreWeb do
 
       import Plug.Conn
       import Phoenix.Controller
+      import Phoenix.LiveView.Router
     end
   end
 
@@ -68,7 +71,6 @@ defmodule UnderscorecoreWeb do
 
       import UnderscorecoreWeb.ErrorHelpers
       import UnderscorecoreWeb.Gettext
-      import UnderscorecoreWeb.ComponentHelpers
       alias UnderscorecoreWeb.Router.Helpers, as: Routes
     end
   end

@@ -1,14 +1,16 @@
 <div class="container mx-auto">
   <div class="h-4"></div>
-  <%= component "page_title.html" do %>
+
+  {{#> page_title }}
     Cores
-  <% end %>
+  {{/page_title}}
   
   <div class="h-2"></div>
 
-  <%= component "action_link.html" do %>
+  {{#> action_link }}
     <%= link "create", to: Routes.core_path(@conn, :new) %>
-  <% end %>
+  {{/action_link}}
+
 
   <div class="h-4"></div>
   <div class="h-px w-full bg-white"></div>
@@ -17,12 +19,13 @@
   <ul>
     <%= for core <- @cores do %>
       <li>
-        <%= component "action_link.html" do %>
+        {{#> action_link }}
           <%= link core.name, to: Routes.core_path(@conn, :show, core) %>
-        <% end %>
+        {{/action_link}}
       </li>
     <% end %>
   </ul>
 
   <div class="h-5"></div>
+  
 </div>

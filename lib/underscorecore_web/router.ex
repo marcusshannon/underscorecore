@@ -1,10 +1,11 @@
 defmodule UnderscorecoreWeb.Router do
   use UnderscorecoreWeb, :router
+  import Phoenix.LiveView.Router
 
   pipeline :browser do
     plug :accepts, ["html"]
     plug :fetch_session
-    plug :fetch_flash
+    plug :fetch_live_flash
     plug :protect_from_forgery
     plug :put_secure_browser_headers
   end
@@ -23,6 +24,7 @@ defmodule UnderscorecoreWeb.Router do
     post "/cores/:id", CoreController, :search
     post "/cores/:id/add", CoreController, :add
     get "/cores/:id/add", CoreController, :add_search
+    get "/cores/:id/albums/edit", CoreController, :edit_core_albums
   end
 
   # Other scopes may use custom stacks.
