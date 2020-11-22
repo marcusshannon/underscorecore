@@ -19,8 +19,7 @@ defmodule UnderscorecoreWeb.Router do
 
     get "/", PageController, :index
     resources "/cores", CoreController
-    resources "/artists", ArtistController
-    resources "/albums", AlbumController
+    get "/albums/:id", AlbumController, :show
     post "/cores/:id", CoreController, :search
     post "/cores/:id/add", CoreController, :add
     get "/cores/:id/add", CoreController, :add_search
