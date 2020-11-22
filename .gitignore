@@ -38,3 +38,5 @@ prod.secret.exs
 .DS_Store
 
 /lib/underscorecore_web/templates
+
+commands
