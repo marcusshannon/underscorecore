@@ -1,6 +1,6 @@
 defmodule Underscorecore.Search do
   def search(term) do
-    query_params = URI.encode_query(%{"term" => term, "limit" => 1, "entity" => "album"})
+    query_params = URI.encode_query(%{"term" => term, "limit" => 3, "entity" => "album"})
 
     {:ok, response} =
       Finch.build(:get, "https://itunes.apple.com/search?#{query_params}")
