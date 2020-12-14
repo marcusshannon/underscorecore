@@ -33,6 +33,7 @@ defmodule Underscorecore.MixProject do
   # Type `mix help deps` for examples and options.
   defp deps do
     [
+      {:bcrypt_elixir, "~> 2.0"},
       {:phoenix, "~> 1.5.7"},
       {:phoenix_ecto, "~> 4.1"},
       {:ecto_sql, "~> 3.4"},
@@ -48,7 +49,8 @@ defmodule Underscorecore.MixProject do
       {:finch, "~> 0.5.2"},
       {:html_entities, "~> 0.5.1"},
       {:phoenix_live_view, "~> 0.15.0"},
-      {:floki, "~> 0.29.0", only: :test}
+      {:floki, "~> 0.29.0", only: :test},
+      {:phx_gen_auth, "~> 0.5", only: [:dev], runtime: false}
     ]
   end
 

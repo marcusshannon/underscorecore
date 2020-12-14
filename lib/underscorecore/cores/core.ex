@@ -5,6 +5,7 @@ defmodule Underscorecore.Cores.Core do
   schema "cores" do
     field :name, :string
     field :order, {:array, :integer}
+    belongs_to :user, Underscorecore.Accounts.User
 
     timestamps()
   end

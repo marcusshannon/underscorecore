@@ -1,0 +1,62 @@
+<div class="container mx-auto flex flex-col items-center">
+  
+  <div class="h-4"></div>
+
+  {{#> page_title }}
+    _core
+  {{/page_title}}
+
+  <div class="h-8"></div>
+
+  <div class="mx-auto w-full max-w-md">
+    <div class="bg-gray-900 py-4 px-4 shadow rounded">
+      <%= form_for @conn, Routes.user_session_path(@conn, :create), [as: :user], fn f -> %>   
+        
+        
+        <div class="space-y-6">
+        <%= if @error_message do %>
+          {{#>error_alert }}
+            <%= @error_message %>
+          {{/error_alert}}
+        <% end %>
+
+          <div>
+            <%= email_input f, :email, required: true, class: "text-input", placeholder: "email" %>
+          </div>
+
+          <div>
+            <%= password_input f, :password, required: true, class: "text-input", placeholder: "password" %>
+          </div>
+
+          <div>
+            {{#>primary_button }}
+              log in
+            {{/primary_button}}
+          </div>
+
+          <div class="flex items-center">
+            <%= checkbox f, :remember_me, class: "h-4 w-4 text-gray-600 rounded" %>
+            <div class="w-2"></div>
+            <%= label f, :email, class: "text-sm text-gray-200" do %>
+              remember me
+            <% end %>
+          </div>
+
+          <div class="flex items-center justify-between">
+            <div class="text-sm">
+              {{#>link to="Routes.user_registration_path(@conn, :new)"}}
+                reset password
+              {{/link}}
+            </div>
+
+            <div class="text-sm">
+              {{#>link to="Routes.user_registration_path(@conn, :new)"}}
+                register
+              {{/link}}
+            </div>
+          </div>
+        </div>
+      <% end %>
+    </div>
+  </div>
+</div>

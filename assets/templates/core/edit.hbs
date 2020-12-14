@@ -1,19 +1,27 @@
 <div class="container mx-auto">
-  <div class="h-5"></div>
-  {{#> page_title }}
-    Edit Core
+  {{>authentication_station}}
+  
+  <div class="h-4"></div>
+
+  {{#>page_title }}
+    edit core
   {{/page_title}}
 
+  <div class="h-2"></div>
 
-  {{#> action_link }}
-    <%= link "index", to: Routes.core_path(@conn, :index) %>
-  {{/action_link}}
+
+  {{#>action_button_container}}
+    {{#>action_button }}
+      <%= link "back", to: Routes.core_path(@conn, :show, @core) %>
+    {{/action_button}}
+  {{/action_button_container}}
 
 
   <div class="h-4"></div>
-  <div class="bg-white overflow-hidden shadow sm:rounded-lg">
-    <div class="p-4">
+
+  <div class="bg-gray-900 rounded p-4">
       <%= render "form.html", Map.put(assigns, :action, Routes.core_path(@conn, :update, @core)) %>
-    </div>
   </div>
+
+
 </div>

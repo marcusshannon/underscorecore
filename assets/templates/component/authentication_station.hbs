@@ -1,0 +1,20 @@
+<%= if @current_user do %>
+  <div class="flex items-center space-x-2">
+    <div class="leading-none text-3xl leading-none font-extrabold text-white">
+      _core
+    </div>
+    <div class="flex-grow">
+      {{#>action_button_container_authentication_station}}
+        {{#>action_button }}
+          <%= link "settings", to: Routes.user_settings_path(assigns[:conn] || assigns[:socket], :edit) %>
+        {{/action_button}}
+        {{#>action_button }}
+          <%= link "log out", to: Routes.user_session_path(assigns[:conn] || assigns[:socket], :delete), method: :delete %>
+        {{/action_button}}
+      {{/action_button_container_authentication_station}}
+    </div>
+  </div>
+<% else %>
+  <li><%= link "Register", to: Routes.user_registration_path(@conn, :new) %></li>
+  <li><%= link "Log in", to: Routes.user_session_path(@conn, :new) %></li>
+<% end %>

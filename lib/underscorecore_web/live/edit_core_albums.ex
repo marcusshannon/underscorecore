@@ -7,10 +7,11 @@ defmodule UnderscorecoreWeb.EditCoreAlbumsLive do
     Phoenix.View.render(UnderscorecoreWeb.CoreView, "edit_core_albums.html", assigns)
   end
 
-  def mount(_params, %{"core_id" => core_id}, socket) do
+  def mount(_params, %{"core_id" => core_id, "current_user" => current_user}, socket) do
+    IO.inspect(socket)
     core = Underscorecore.Cores.get_core!(core_id)
     core_albums = Underscorecore.Cores.get_core_albums(core_id)
-    {:ok, assign(socket, %{core: core, core_albums: core_albums})}
+    {:ok, assign(socket, %{core: core, core_albums: core_albums, current_user: current_user})}
   end
 
   def handle_event("delete", %{"album_id" => album_id}, socket) do
@@ -19,6 +20,4 @@ defmodule UnderscorecoreWeb.EditCoreAlbumsLive do
     core_albums = Underscorecore.Cores.get_core_albums(core_id)
     {:noreply, assign(socket, :core_albums, core_albums)}
   end
-
-
 end

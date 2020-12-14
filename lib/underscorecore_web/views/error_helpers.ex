@@ -17,6 +17,16 @@ defmodule UnderscorecoreWeb.ErrorHelpers do
     end)
   end
 
+  def error_map(changeset) do
+    Enum.reduce(
+      changeset.errors,
+      %{},
+      fn {key, value}, acc ->
+        Map.put(acc, key, translate_error(value))
+      end
+    )
+  end
+
   @doc """
   Translates an error message using gettext.
   """

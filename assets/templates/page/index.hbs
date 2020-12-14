@@ -1,0 +1,23 @@
+<div class="container mx-auto flex flex-col items-center">
+  <div class="h-4"></div>
+  {{#> page_title }}
+  _core
+  {{/page_title}}
+  <div class="h-8"></div>
+  <div class="mx-auto w-full max-w-md">
+    <div class="bg-gray-900 py-4 px-4 shadow rounded px-10">
+      <div class="flex items-center justify-between">
+        <div class="text-sm">
+          {{#>link to="Routes.user_session_path(@conn, :new)"}}
+            log in
+          {{/link}}
+        </div>
+        <div class="text-sm">
+          {{#>link to="Routes.user_registration_path(@conn, :new)"}}
+           register
+          {{/link}}
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

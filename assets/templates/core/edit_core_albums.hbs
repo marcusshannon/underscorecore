@@ -1,31 +1,34 @@
 <div class="container mx-auto">
-
+  {{>authentication_station}}
+  
   <div class="h-4"></div>
 
-  {{#> page_title }}
+  {{#>page_title }}
     <%= @core.name %>
   {{/page_title}}
 
-  <div class="flex">
-    {{#> action_link }}
-      <%= link "index", to: Routes.core_path(@socket, :index) %>
-    {{/action_link}}
-  </div>
+  <div class="h-2"></div>
+
+  {{#>action_button_container}}
+    {{#>action_button }}
+      <%= link "back", to: Routes.core_path(@socket, :show, @core) %>
+    {{/action_button}}
+  {{/action_button_container}}
 
   <div class="h-4"></div>
 
   <div class="grid grid-cols-3 gap-4">
     <%= for album <- @core_albums do %>
-      <div>
-        <a href="/albums/#{album.album_id}">
-          <img class="block rounded shadow-lg" src="<%= album.artwork_url %>">
-        </a>
+      <div class="">
+        <img class="block rounded shadow-lg rounded-b-none" src="<%= album.artwork_url %>">
         <div class="flex">
-          {{#> action_link }}
-          <span phx-click="delete" phx-value-album_id="<%= album.album_id %>">
-            delete
-          </span>
-          {{/action_link}}
+          {{#>action_button_container_authentication_station}}
+            {{#>action_button }}
+              <div phx-click="delete" phx-value-album_id="<%= album.album_id %>">
+                delete
+              </div>
+            {{/action_button}}
+          {{/action_button_container_authentication_station}}
         </div>
       </div>
     <% end %>

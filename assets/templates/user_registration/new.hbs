@@ -1,0 +1,65 @@
+<div class="container mx-auto flex flex-col items-center">
+  
+  <div class="h-4"></div>
+
+  {{#> page_title }}
+    _core
+  {{/page_title}}
+
+  <div class="h-8"></div>
+
+  <div class="mx-auto w-full max-w-md">
+    <div class="bg-gray-900 py-4 px-4 shadow rounded px-10">
+      <%= form_for @changeset, Routes.user_registration_path(@conn, :create), fn f -> %>
+        
+        <div class="space-y-6">
+          <%= if @changeset.action do %>
+            {{#>error_alert}}
+              Please check the errors below.
+            {{/error_alert}}
+          <% end %>
+
+          <div>
+            <%= email_input f, :email, required: true, class: "text-input", placeholder: "email" %>
+            <%= if not is_nil(assigns[:error_map]) and @error_map[:email] do %>
+              <div class="h-1"></div>
+              <div class="text-red-500 text-sm">
+                <%= @error_map[:email] %>
+              </div>
+            <% end %>
+          </div>
+
+          <div>
+            <%= password_input f, :password, required: true, class: "text-input", placeholder: "password" %>
+            <%= if not is_nil(assigns[:error_map]) and @error_map[:password] do %>
+              <div class="h-1"></div>
+              <div class="text-red-500 text-sm">
+                <%= @error_map[:password] %>
+              </div>
+            <% end %>
+          </div>
+
+          <div>
+            {{#>primary_button }}
+              register
+            {{/primary_button}}
+          </div>
+
+          <div class="flex items-center justify-between">
+
+            <div class="text-sm">
+              {{#>link to="Routes.user_reset_password_path(@conn, :new)"}}
+                reset password
+              {{/link}}
+            </div>
+            <div class="text-sm">
+              {{#>link to="Routes.user_session_path(@conn, :new)"}}
+                log in
+              {{/link}}
+            </div>
+          </div>
+        </div>
+      <% end %>
+    </div>
+  </div>
+</div>

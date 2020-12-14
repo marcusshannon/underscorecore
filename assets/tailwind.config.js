@@ -1,21 +1,21 @@
-const defaultTheme = require("tailwindcss/defaultTheme");
+const colors = require("tailwindcss/colors");
 
 module.exports = {
-  future: {
-    removeDeprecatedGapUtilities: true,
-    purgeLayersByDefault: true,
+  purge: {
+    content: [
+      "../lib/underscorecore_web/templates/**/*.html.eex",
+      "../lib/underscorecore_web/templates/**/*.html.leex",
+    ],
   },
-  purge: [
-    '../lib/underscorecore_web/templates/**/*.html.eex',
-    '../lib/underscorecore_web/templates/**/*.html.leex',
-  ],
   theme: {
-    extend: {
-      fontFamily: {
-        sans: ["Inter var", ...defaultTheme.fontFamily.sans],
-      },
+    colors: {
+      ...colors,
+      gray: colors.gray,
     },
   },
-  variants: {},
-  plugins: [require("@tailwindcss/ui")],
+  plugins: [
+    require("@tailwindcss/forms"),
+    require("@tailwindcss/typography"),
+    require("@tailwindcss/aspect-ratio"),
+  ],
 };

@@ -1,29 +1,25 @@
 <div class="container mx-auto">
+  {{>authentication_station}}
+
   <div class="h-4"></div>
-  {{#> page_title }} 
+
+  {{#>page_title }} 
     <%= @core.name %>
   {{/page_title}}
 
-  <div class="flex">
-    {{#> action_link }}
-      <%= link "index", to: Routes.core_path(@conn, :index) %>
-    {{/action_link}}
-    <div class="w-1"></div>
-    
-    {{#> action_link }}
-      <%= link "edit meta", to: Routes.core_path(@conn, :edit, @core) %>
-    {{/action_link}}
-    <div class="w-1"></div>
-    
-    {{#> action_link }}
+  <div class="h-2"></div>
+
+  {{#>action_button_container}}
+    {{#>action_button }}
+      <%= link "edit", to: Routes.core_path(@conn, :edit, @core) %>
+    {{/action_button}}
+    {{#>action_button }}
       <%= link "add albums", to: "/cores/#{@core.id}/add" %>
-    {{/action_link}}
-    <div class="w-1"></div>
-    
-    {{#> action_link }}
+    {{/action_button}}
+    {{#>action_button }}
       <%= link "edit albums", to: "/cores/#{@core.id}/albums/edit" %>
-    {{/action_link}}
-  </div>
+    {{/action_button}}
+  {{/action_button_container}}
 
   <div class="h-4"></div>
 
@@ -34,4 +30,6 @@
       <% end %>
     <% end %>
   </div>
+  
+
 </div>

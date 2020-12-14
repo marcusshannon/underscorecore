@@ -1,8 +1,9 @@
 <div class="container mx-auto">
+  {{>authentication_station}}
   
   <div class="h-4"></div>
 
-  {{#> page_title }}
+  {{#>page_title }}
     <%= @album.name %>
   {{/page_title}}
 
@@ -31,5 +32,4 @@
       {{/list_item}}
     <% end %>
   {{/list}}
-
 </div>

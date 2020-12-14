@@ -40,7 +40,11 @@ defmodule UnderscorecoreWeb.CoreController do
   end
 
   def edit_core_albums(conn, %{"id" => id}) do
-    live_render(conn, UnderscorecoreWeb.EditCoreAlbumsLive, session: %{"core_id" => id})
+    IO.inspect(conn)
+
+    live_render(conn, UnderscorecoreWeb.EditCoreAlbumsLive,
+      session: %{"core_id" => id, "current_user" => conn.assigns.current_user}
+    )
   end
 
   def update(conn, %{"id" => id, "core" => core_params}) do
