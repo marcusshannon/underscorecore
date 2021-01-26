@@ -2,6 +2,8 @@ defmodule Underscorecore.App do
   import Ecto.Query, warn: false
   alias Underscorecore.Repo
   alias Underscorecore.Models.{User, UserToken, Core, CoreAlbum, Album, Artist}
+  alias Swoosh.Email
+  alias Underscorecore.Mailer
 
   ## Database getters
 
@@ -360,15 +362,19 @@ defmodule Underscorecore.App do
   #   * Swoosh - https://hexdocs.pm/swoosh
   #   * Bamboo - https://hexdocs.pm/bamboo
   #
-  defp deliver(to, body) do
-    require Logger
-    Logger.debug(body)
-    {:ok, %{to: to, body: body}}
+  defp deliver(to, subject, body) do
+    IO.inspect "DELIERING"
+    Email.new()
+    |> Email.to(to)
+    |> Email.from({"_core", "no-reply@underscorecore.com"})
+    |> Email.subject(subject)
+    |> Email.text_body(body)
+    |> Mailer.deliver()
   end
 
 
   def deliver_confirmation_instructions(user, url) do
-    deliver(user.email, """
+    deliver(user.email, "_core - email confirmation", """
 
     ==============================
 
@@ -386,7 +392,7 @@ defmodule Underscorecore.App do
 
 
   def deliver_reset_password_instructions(user, url) do
-    deliver(user.email, """
+    deliver(user.email, "_core - reset password", """
 
     ==============================
 
@@ -403,7 +409,7 @@ defmodule Underscorecore.App do
   end
 
   def deliver_update_email_instructions(user, url) do
-    deliver(user.email, """
+    deliver(user.email, "_core - change email", """
 
     ==============================
 

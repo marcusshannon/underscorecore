@@ -11,7 +11,7 @@
 
   <div class="w-full bg-gray-900 p-4 rounded">
     <div class="max-w-md">
-      <%= form_for @changeset, Routes.user_settings_path(@conn, :update_email), fn f -> %>   
+      <%= form_for @changeset, Routes.user_reset_password_path(@conn, :update, @token), fn f -> %>   
         <div class="space-y-4">
           <%= if @changeset.action do %>
             {{#>error_alert}}
@@ -20,18 +20,18 @@
           <% end %>
           <div class="space-y-8">
              <div class="space-y-2">
-                <%= label f, :email, "email", class: "{{>style_form_label}}" %>
-                <%= email_input f, :email, required: true, class: "{{>style_form_text_input}}", placeholder: "email" %>
-                {{>form_error key=":email" changeset="@changeset"}}
-              </div>
-             <div class="space-y-2">
                 <%= label f, :password, "password", class: "{{>style_form_label}}" %>
                 <%= password_input f, :password, required: true, class: "{{>style_form_text_input}}", placeholder: "password" %>
                 {{>form_error key=":password" changeset="@changeset"}}
               </div>
+              <div class="space-y-2">
+                <%= label f, :password_confirmation, "password confirmation", class: "{{>style_form_label}}" %>
+                <%= password_input f, :password_confirmation, required: true, class: "{{>style_form_text_input}}", placeholder: "password confirmation" %>
+                {{>form_error key=":password_confirmation" changeset="@changeset"}}
+              </div>
               <div>
                 {{#>primary_button }}
-                  sign up
+                  reset password
                 {{/primary_button}}
               </div>
           </div>

@@ -51,7 +51,9 @@ defmodule Underscorecore.MixProject do
       {:phoenix_live_view, "~> 0.15.0"},
       {:floki, "~> 0.29.0", only: :test},
       {:phx_gen_auth, "~> 0.5", only: [:dev], runtime: false},
-      {:earmark, "~> 1.4"}
+      {:earmark, "~> 1.4"},
+      {:swoosh, "~> 1.3"},
+      {:hackney, "~> 1.9"}
     ]
   end
 

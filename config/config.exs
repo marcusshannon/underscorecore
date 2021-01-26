@@ -27,6 +27,10 @@ config :logger, :console,
 # Use Jason for JSON parsing in Phoenix
 config :phoenix, :json_library, Jason
 
+config :underscorecore, Underscorecore.Mailer,
+  adapter: Swoosh.Adapters.Sendgrid,
+  api_key: "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"
+
 # Import environment specific config. This must remain at the bottom
 # of this file so it overrides the configuration defined above.
 import_config "#{Mix.env()}.exs"
