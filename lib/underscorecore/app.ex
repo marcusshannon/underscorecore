@@ -363,12 +363,15 @@ defmodule Underscorecore.App do
   #   * Bamboo - https://hexdocs.pm/bamboo
   #
   defp deliver(to, subject, body) do
-    Email.new()
+    email = Email.new()
     |> Email.to(to)
     |> Email.from("no-reply@underscorecore.com")
     |> Email.subject(subject)
     |> Email.text_body(body)
-    |> Mailer.deliver()
+
+    IO.inspect(email)
+
+    Mailer.deliver(email)
   end
 
 
