@@ -15,7 +15,7 @@ defmodule Underscorecore.Models.CoreAlbum do
 
   def changeset(core, attrs) do
     core
-    |> cast(attrs, [:core_id, :album_id, :description])
+    |> cast(attrs, [:core_id, :album_id, :annotation])
     |> validate_required([:core_id, :album_id])
   end
 end
