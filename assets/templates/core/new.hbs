@@ -11,7 +11,7 @@
 
   {{#>action_button_container}}
     {{#>action_button }}
-      <%= link "back", to: Routes.core_path(@conn, :index) %>
+      <%= link "back", to: Routes.user_path(@conn, :show, @current_user) %>
     {{/action_button}}
   {{/action_button_container}}
 
