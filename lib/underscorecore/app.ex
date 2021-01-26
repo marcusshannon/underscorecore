@@ -365,7 +365,7 @@ defmodule Underscorecore.App do
   defp deliver(to, subject, body) do
     Email.new()
     |> Email.to(to)
-    |> Email.from({"_core", "no-reply@underscorecore.com"})
+    |> Email.from("no-reply@underscorecore.com")
     |> Email.subject(subject)
     |> Email.text_body(body)
     |> Mailer.deliver()

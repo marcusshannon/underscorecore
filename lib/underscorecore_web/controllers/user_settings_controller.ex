@@ -14,7 +14,7 @@ defmodule UnderscorecoreWeb.UserSettingsController do
     user = conn.assigns.current_user
 
     case App.update_user_info(user, user_params) do
-      {:ok, updated_user} ->
+      {:ok, _updated_user} ->
         conn
         |> put_flash(
           :info,

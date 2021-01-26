@@ -3,7 +3,6 @@ defmodule UnderscorecoreWeb.UserRegistrationController do
 
   alias Underscorecore.App
   alias Underscorecore.Models.User
-  alias UnderscorecoreWeb.UserAuth
 
   def new(conn, _params) do
     changeset = App.change_user_registration(%User{})
