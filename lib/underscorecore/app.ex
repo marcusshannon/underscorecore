@@ -363,7 +363,6 @@ defmodule Underscorecore.App do
   #   * Bamboo - https://hexdocs.pm/bamboo
   #
   defp deliver(to, subject, body) do
-    IO.inspect "DELIERING"
     Email.new()
     |> Email.to(to)
     |> Email.from({"_core", "no-reply@underscorecore.com"})

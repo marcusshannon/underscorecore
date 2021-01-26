@@ -12,7 +12,7 @@ config :underscorecore,
 
 # Configures the endpoint
 config :underscorecore, UnderscorecoreWeb.Endpoint,
-  url: [host: "localhost"],
+  url: [host: "underscorecore.com"],
   secret_key_base: "GuxJxjWvK/W5lF+z3i2lHa2+kR8R3v96Pkgf2z0CwbZd+61iqPo9C2KB5waR8Xf6",
   render_errors: [view: UnderscorecoreWeb.ErrorView, accepts: ~w(html json), layout: false],
   pubsub_server: Underscorecore.PubSub,
@@ -28,8 +28,7 @@ config :logger, :console,
 config :phoenix, :json_library, Jason
 
 config :underscorecore, Underscorecore.Mailer,
-  adapter: Swoosh.Adapters.Sendgrid,
-  api_key: "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"
+  adapter: Swoosh.Adapters.Sendgrid
 
 # Import environment specific config. This must remain at the bottom
 # of this file so it overrides the configuration defined above.
