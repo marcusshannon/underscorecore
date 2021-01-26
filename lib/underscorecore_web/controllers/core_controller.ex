@@ -73,7 +73,7 @@ defmodule UnderscorecoreWeb.CoreController do
   end
 
   def add(conn, %{"id" => id, "core_album" => core_album_params}) do
-    Underscorecore.App.create_core_album(core_album_params)
+    App.create_core_album(core_album_params)
     core = App.get_core!(id)
 
     conn

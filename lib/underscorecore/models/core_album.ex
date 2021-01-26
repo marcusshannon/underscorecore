@@ -17,5 +17,6 @@ defmodule Underscorecore.Models.CoreAlbum do
     core
     |> cast(attrs, [:core_id, :album_id, :annotation])
     |> validate_required([:core_id, :album_id])
+    |> unique_constraint([:core_id, :album_id])
   end
 end
