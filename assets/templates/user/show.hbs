@@ -1,0 +1,27 @@
+<div class="container mx-auto">
+  {{> authentication_station}}
+
+  <div class="h-8"></div>
+
+  {{#>page_title}}
+    <%= @user.name %>
+  {{/page_title}}
+
+  <div class="h-2"></div>
+
+  <%= if assigns[:current_user] && @user.id == @current_user.id do %>
+    {{#>action_button_container}}
+      {{#>action_button }}
+        <%= link "create core", to: Routes.core_path(assigns[:conn] || assigns[:socket], :new) %>
+      {{/action_button}}
+    {{/action_button_container}}
+    <div class="h-4"></div>
+  <% end %>
+
+
+  <div class="w-full grid sm:grid-cols-2 gap-4 grid-cols-1">
+    <%= for core <- @user.cores do %>
+      {{>featured_core}}
+    <% end %> 
+  </div>
+</div>

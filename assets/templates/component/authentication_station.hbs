@@ -1,10 +1,15 @@
 <%= if @current_user do %>
   <div class="flex items-center space-x-2">
     <div class="leading-none text-3xl leading-none font-extrabold text-white">
-      _core
+      <%= link to: "/" do %>
+        _core
+      <% end %>
     </div>
     <div class="flex-grow">
       {{#>action_button_container_authentication_station}}
+        {{#>action_button }}
+          <%= link "home", to: Routes.user_path(assigns[:conn] || assigns[:socket], :show, @current_user) %>
+        {{/action_button}}
         {{#>action_button }}
           <%= link "settings", to: Routes.user_settings_path(assigns[:conn] || assigns[:socket], :edit) %>
         {{/action_button}}
@@ -15,6 +20,49 @@
     </div>
   </div>
 <% else %>
-  <li><%= link "Register", to: Routes.user_registration_path(@conn, :new) %></li>
-  <li><%= link "Log in", to: Routes.user_session_path(@conn, :new) %></li>
+  <div class="flex items-center space-x-2">
+    <div class="leading-none text-3xl leading-none font-extrabold text-white">
+      <%= link to: "/" do %>
+        _core
+      <% end %>
+    </div>
+    <div class="flex-grow">
+      {{#>action_button_container_authentication_station}}
+        {{#>action_button }}
+          <%= link "log in", to: Routes.user_session_path(assigns[:conn] || assigns[:socket], :new) %>
+        {{/action_button}}
+        {{#>action_button }}
+          <%= link "create account", to: Routes.user_registration_path(assigns[:conn] || assigns[:socket], :new) %>
+        {{/action_button}}
+      {{/action_button_container_authentication_station}}
+    </div>
+  </div>
+<% end %> 
+
+<%= if assigns[:conn] && not is_nil(get_flash(@conn, :info)) do %>
+  <div class="h-8"></div>
+  {{#>info_alert}}
+    <%= get_flash(@conn, :info) %>
+  {{/info_alert}} 
+<% end %>
+
+<%= if assigns[:flash] && not is_nil(live_flash(@flash, :info)) do %>
+  <div class="h-8"></div>
+  {{#>info_alert}}
+    <%= live_flash(@flash, :info) %>
+  {{/info_alert}} 
+<% end %>
+
+<%= if assigns[:conn] && not is_nil(get_flash(@conn, :error)) do %>
+  <div class="h-8"></div>
+  {{#>error_alert}}
+    <%= get_flash(@conn, :error) %>
+  {{/error_alert}} 
+<% end %>
+
+<%= if assigns[:flash] && not is_nil(live_flash(@flash, :error)) do %>
+  <div class="h-8"></div>
+  {{#>error_alert}}
+    <%= live_flash(@flash, :error) %>
+  {{/error_alert}} 
 <% end %>

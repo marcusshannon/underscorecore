@@ -1,0 +1,27 @@
+<div class="rounded bg-gray-900 p-3 w-full">
+  <div class="flex space-x-4" style="min-height: 8rem">
+      <%= if length(core.albums) == 4 do %>
+        <div class="grid grid-cols-2 grid-rows-2 w-32 h-32 rounded overflow-hidden shadow-lg flex-shrink-0">
+          <%= for album <- core.albums do %>
+            <img src="<%= album.artwork_url %>">
+          <% end %>
+        </div>
+      <% end %>
+
+    <div class="space-y-1 min-w-0">
+      <div class="text-gray-200 text-xl font-bold underline text-decoration-gray-400">
+        <%= link to: Routes.core_path(assigns[:conn] || assigns[:socket], :show, core), class: "block truncate" do %>
+          <%= core.name %>
+        <% end %>
+      </div>
+
+      <div>
+        <%= link core.user.name, to: Routes.user_path(assigns[:conn] || assigns[:socket], :show, core.user), class: "text-xs text-gray-400 underline text-decoration-gray-600 cursor-pointer block" %>
+      </div>
+
+      <div class="text-gray-400 text-xs">
+        <%= core.albums_count %> albums
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,52 +1,124 @@
-<div class="bg-white">
+<div class="container mx-auto">
+  {{>authentication_station}}
 
-<h1>Settings</h1>
+  <div class="h-8"></div>
 
-<h3>Change email</h3>
+  {{#>page_title }}
+    info
+  {{/page_title}}
 
-<%= form_for @email_changeset, Routes.user_settings_path(@conn, :update_email), fn f -> %>
-  <%= if @email_changeset.action do %>
-    <div class="alert alert-danger">
-      <p>Oops, something went wrong! Please check the errors below.</p>
+  <div class="h-4"></div>
+
+  <div class="w-full bg-gray-900 p-4 rounded">
+    <div class="max-w-md">
+      <%= form_for @info_changeset, Routes.user_settings_path(@conn, :update_info), fn f -> %>   
+        <div class="space-y-4">
+          <%= if @info_changeset.action do %>
+            {{#>error_alert}}
+              Please check the errors below.
+            {{/error_alert}}
+          <% end %>
+          <div class="space-y-8">
+             <div class="space-y-2">
+                <%= label f, :name, "display name", class: "{{>style_form_label}}" %>
+                <%= text_input f, :name, class: "{{>style_form_text_input}}", placeholder: "display name" %>
+                {{>form_error key=":name" changeset="@info_changeset"}}
+              </div>
+              <div>
+                {{#>primary_button }}
+                  save
+                {{/primary_button}}
+              </div>
+          </div>
+        </div>
+      <% end %>
     </div>
-  <% end %>
-
-  <%= label f, :email %>
-  <%= email_input f, :email, required: true %>
-  <%= error_tag f, :email %>
-
-  <%= label f, :current_password, for: "current_password_for_email" %>
-  <%= password_input f, :current_password, required: true, name: "current_password", id: "current_password_for_email" %>
-  <%= error_tag f, :current_password %>
-
-  <div>
-    <%= submit "Change email" %>
   </div>
-<% end %>
 
-<h3>Change password</h3>
+  <div class="h-8"></div>
 
-<%= form_for @password_changeset, Routes.user_settings_path(@conn, :update_password), fn f -> %>
-  <%= if @password_changeset.action do %>
-    <div class="alert alert-danger">
-      <p>Oops, something went wrong! Please check the errors below.</p>
+  {{#>page_title }}
+    change email
+  {{/page_title}}
+
+  <div class="h-4"></div>
+
+  <div class="w-full bg-gray-900 p-4 rounded">
+    <div class="max-w-md">
+      <%= form_for @email_changeset, Routes.user_settings_path(@conn, :update_email), fn f -> %>   
+        <div class="space-y-4">
+          <%= if @email_changeset.action do %>
+            {{#>error_alert}}
+              Please check the errors below.
+            {{/error_alert}}
+          <% end %>
+          <div class="space-y-8">
+             <div class="space-y-2">
+                <%= label f, :email, "email", class: "{{>style_form_label}}" %>
+                <%= email_input f, :email, required: true, class: "{{>style_form_text_input}}", placeholder: "email" %>
+                {{>form_error key=":email" changeset="@email_changeset"}}
+              </div>
+             <div class="space-y-2">
+                <%= label f, :current_password, "current password", class: "{{>style_form_label}}" %>
+                <%= password_input f, :current_password, required: true, class: "{{>style_form_text_input}}", placeholder: "current password", for: "current_password_for_password" %>
+                {{>form_error key=":current_password" changeset="@email_changeset"}}
+              </div>
+              <div>
+                {{#>primary_button }}
+                  change email
+                {{/primary_button}}
+              </div>
+          </div>
+        </div>
+      <% end %>
     </div>
-  <% end %>
-
-  <%= label f, :password, "New password" %>
-  <%= password_input f, :password, required: true %>
-  <%= error_tag f, :password %>
-
-  <%= label f, :password_confirmation, "Confirm new password" %>
-  <%= password_input f, :password_confirmation, required: true %>
-  <%= error_tag f, :password_confirmation %>
-
-  <%= label f, :current_password, for: "current_password_for_password" %>
-  <%= password_input f, :current_password, required: true, name: "current_password", id: "current_password_for_password" %>
-  <%= error_tag f, :current_password %>
-
-  <div>
-    <%= submit "Change password" %>
   </div>
-<% end %>
+
+  <div class="h-8"></div>
+
+  {{#>page_title }}
+    change password
+  {{/page_title}}
+
+  <div class="h-4"></div>
+
+  <div class="w-full bg-gray-900 p-4 rounded">
+    <div class="max-w-md">
+      <%= form_for @password_changeset, Routes.user_settings_path(@conn, :update_password), fn f -> %>   
+        <div class="space-y-4">
+          <%= if @password_changeset.action do %>
+            {{#>error_alert}}
+              Please check the errors below.
+            {{/error_alert}}
+          <% end %>
+
+          <div class="space-y-8">
+            <div class="space-y-2">               
+                <%= label f, :password, "password", class: "{{>style_form_label}}" %>
+                <%= password_input f, :password, required: true, class: "{{>style_form_text_input}}", placeholder: "new password" %>
+                {{>form_error key=":password" changeset="@password_changeset"}}
+            </div>
+
+            <div class="space-y-2">               
+                <%= label f, :password_confirmation, "password confirmation", class: "{{>style_form_label}}" %>
+                <%= password_input f, :password_confirmation, required: true, class: "{{>style_form_text_input}}", placeholder: "confirm new password" %>
+                {{>form_error key=":password_confirmation" changeset="@password_changeset"}}
+            </div>
+
+            <div class="space-y-2">               
+              <%= label f, :current_password, "current password", class: "{{>style_form_label}}" %>
+              <%= password_input f, :current_password, required: true, class: "{{>style_form_text_input}}", placeholder: "current password", for: "current_password_for_password" %>
+              {{>form_error key=":current_password" changeset="@email_changeset"}}
+            </div>
+
+            <div>
+              {{#>primary_button }}
+                change password
+              {{/primary_button}}
+            </div>
+          </div>
+        </div>
+      <% end %>
+    </div>
+  </div>
 </div>

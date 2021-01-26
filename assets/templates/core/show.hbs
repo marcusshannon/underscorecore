@@ -1,7 +1,7 @@
 <div class="container mx-auto">
   {{>authentication_station}}
 
-  <div class="h-4"></div>
+  <div class="h-8"></div>
 
   {{#>page_title }} 
     <%= @core.name %>
@@ -9,27 +9,53 @@
 
   <div class="h-2"></div>
 
-  {{#>action_button_container}}
-    {{#>action_button }}
-      <%= link "edit", to: Routes.core_path(@conn, :edit, @core) %>
-    {{/action_button}}
-    {{#>action_button }}
-      <%= link "add albums", to: "/cores/#{@core.id}/add" %>
-    {{/action_button}}
-    {{#>action_button }}
-      <%= link "edit albums", to: "/cores/#{@core.id}/albums/edit" %>
-    {{/action_button}}
-  {{/action_button_container}}
-
+  {{#>page_subtitle }} 
+    <%= link to: Routes.user_path(@conn, :show, @core.user), class: "underline text-decoration-gray-500" do %>
+      <%= @core.user.name %>
+    <% end %>
+  {{/page_subtitle}}
+  
   <div class="h-4"></div>
 
+  <%= if assigns[:current_user] && @core.user.id == @current_user.id do %>
+    {{#>action_button_container}}
+      {{#>action_button }}
+        <%= link "edit details", to: Routes.core_path(@conn, :edit, @core) %>
+      {{/action_button}}
+      {{#>action_button }}
+        <%= link "add albums", to: "/cores/#{@core.id}/add" %>
+      {{/action_button}}
+      {{#>action_button }}
+        <%= link "edit albums", to: "/cores/#{@core.id}/albums/edit" %>
+      {{/action_button}}
+      {{#>action_button }}
+        <%= link "delete core", to: Routes.core_path(@conn, :delete, @core), method: :delete, data: [confirm: "Delete core?"] %>
+      {{/action_button}}
+    {{/action_button_container}}
+    <div class="h-4"></div>
+  <% end %>
+
+
+  <%= if not is_nil(@core.description) do %>
+    <div class="rounded p-3 bg-gray-900 w-full">
+      <div class="max-w-md text-gray-100 prose">
+        <%= raw Earmark.as_html!(@core.description) %>
+      </div>
+    </div>
+    <div class="h-4"></div>
+  <% end %>
+
   <div class="grid grid-cols-3 gap-4">
-    <%= for album <- @core_albums do %>
-      <%= link to: "/albums/#{album.album_id}" do %>
-        <img class="block rounded shadow-lg" src="<%= album.artwork_url %>">
-      <% end %>
+    <%= for album <- @core.albums do %>
+      <div class="space-y-2">
+        <%= link to: "/albums/#{album.id}" do %>
+          <div class="aspect-w-1 aspect-h-1">
+            <img class="block rounded shadow-lg" src="<%= album.artwork_url %>" loading="lazy">
+          </div>
+        <% end %>
+        {{>media title="<%= album.name %>" subtitle="<%= album.artist.name %>" }}
+      </div>
     <% end %>
   </div>
-  
 
 </div>

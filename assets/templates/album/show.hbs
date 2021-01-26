@@ -1,7 +1,7 @@
 <div class="container mx-auto">
   {{>authentication_station}}
   
-  <div class="h-4"></div>
+  <div class="h-8"></div>
 
   {{#>page_title }}
     <%= @album.name %>
@@ -19,17 +19,19 @@
 
   <div class="h-8"></div>
 
-  {{#> page_title }}
-    Found in...
+  {{#>page_title }}
+    found in...
   {{/page_title}}
 
   <div class="h-4"></div>
 
-  {{#> list }}
-    <%= for core <- @cores_with_album do %>
-      {{#> list_item to="/cores/#{core.id}"}}
-        <%= core.name %>
-      {{/list_item}}
-    <% end %>
-  {{/list}}
+  <div class="w-full grid sm:grid-cols-2 gap-4 grid-cols-1">
+    <%= for core <- @album.cores do %>
+      {{>featured_core}}
+    <% end %> 
+  </div>
+
+
+  <div class="h-4"></div>
+
 </div>

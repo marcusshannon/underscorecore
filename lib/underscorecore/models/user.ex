@@ -1,14 +1,17 @@
-defmodule Underscorecore.Accounts.User do
+defmodule Underscorecore.Models.User do
   use Ecto.Schema
   import Ecto.Changeset
+  alias Underscorecore.Models.{Core, User}
+  alias Underscorecore.Repo
 
   # @derive {Inspect, except: [:password]}
   schema "users" do
     field :email, :string
-    field :password, :string, virtual: true
-    field :hashed_password, :string
+    field :name, :string
+    field :password, :string, virtual: true, redact: true
+    field :hashed_password, :string, redact: true
     field :confirmed_at, :naive_datetime
-    has_many :cores, Underscorecore.Cores.Core
+    has_many :cores, Core
 
     timestamps()
   end
@@ -23,9 +26,18 @@ defmodule Underscorecore.Accounts.User do
   """
   def registration_changeset(user, attrs) do
     user
-    |> cast(attrs, [:email, :password])
+    |> cast(attrs, [:email, :password, :name])
     |> validate_email()
     |> validate_password()
+    |> validate_name()
+  end
+
+  defp validate_name(changeset) do
+    changeset
+    |> validate_required([:name])
+    |> validate_format(:name, ~r/^[a-z0-9_]+$/, message: "must only include lowercase letters, numbers, and/or _")
+    |> validate_length(:name, max: 20, min: 3)
+    |> unique_constraint(:name)
   end
 
   defp validate_email(changeset) do
@@ -33,7 +45,7 @@ defmodule Underscorecore.Accounts.User do
     |> validate_required([:email])
     |> validate_format(:email, ~r/^[^\s]+@[^\s]+$/, message: "must have the @ sign and no spaces")
     |> validate_length(:email, max: 160)
-    |> unsafe_validate_unique(:email, Underscorecore.Repo)
+    |> unsafe_validate_unique(:email, Repo)
     |> unique_constraint(:email)
   end
 
@@ -80,6 +92,12 @@ defmodule Underscorecore.Accounts.User do
     |> validate_password()
   end
 
+  def info_changeset(user, attrs) do
+    user
+    |> cast(attrs, [:name])
+    |> validate_required([:name])
+  end
+
   @doc """
   Confirms the account by setting `confirmed_at`.
   """
@@ -94,7 +112,7 @@ defmodule Underscorecore.Accounts.User do
   If there is no user or the user doesn't have a password, we call
   `Bcrypt.no_user_verify/0` to avoid timing attacks.
   """
-  def valid_password?(%Underscorecore.Accounts.User{hashed_password: hashed_password}, password)
+  def valid_password?(%User{hashed_password: hashed_password}, password)
       when is_binary(hashed_password) and byte_size(password) > 0 do
     Bcrypt.verify_pass(password, hashed_password)
   end
@@ -113,5 +131,9 @@ defmodule Underscorecore.Accounts.User do
     else
       add_error(changeset, :current_password, "is not valid")
     end
+  end
+
+  def confirmed?(%User{confirmed_at: confirmed_at}) do
+     not is_nil(confirmed_at)
   end
 end

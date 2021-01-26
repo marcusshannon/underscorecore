@@ -8,7 +8,7 @@ defmodule UnderscorecoreWeb.UserControllerTest do
   @invalid_attrs %{name: nil}
 
   def fixture(:user) do
-    {:ok, user} = Accounts.create_user(@create_attrs)
+    {:ok, user} = App.create_user(@create_attrs)
     user
   end
 

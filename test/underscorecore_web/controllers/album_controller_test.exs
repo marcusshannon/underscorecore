@@ -8,7 +8,7 @@ defmodule UnderscorecoreWeb.AlbumControllerTest do
   @invalid_attrs %{external_id: nil, name: nil}
 
   def fixture(:album) do
-    {:ok, album} = Music.create_album(@create_attrs)
+    {:ok, album} = App.create_album(@create_attrs)
     album
   end
 

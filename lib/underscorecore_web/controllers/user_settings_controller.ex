@@ -1,7 +1,7 @@
 defmodule UnderscorecoreWeb.UserSettingsController do
   use UnderscorecoreWeb, :controller
 
-  alias Underscorecore.Accounts
+  alias Underscorecore.App
   alias UnderscorecoreWeb.UserAuth
 
   plug :assign_email_and_password_changesets
@@ -10,12 +10,29 @@ defmodule UnderscorecoreWeb.UserSettingsController do
     render(conn, "edit.html")
   end
 
+  def update_info(conn, %{"user" => user_params}) do
+    user = conn.assigns.current_user
+
+    case App.update_user_info(user, user_params) do
+      {:ok, updated_user} ->
+        conn
+        |> put_flash(
+          :info,
+          "Info successfully updated."
+        )
+        |> redirect(to: Routes.user_settings_path(conn, :edit))
+
+      {:error, changeset} ->
+        render(conn, "edit.html", info_changeset: changeset)
+    end
+  end
+
   def update_email(conn, %{"current_password" => password, "user" => user_params}) do
     user = conn.assigns.current_user
 
-    case Accounts.apply_user_email(user, password, user_params) do
+    case App.apply_user_email(user, password, user_params) do
       {:ok, applied_user} ->
-        Accounts.deliver_update_email_instructions(
+        App.deliver_update_email_instructions(
           applied_user,
           user.email,
           &Routes.user_settings_url(conn, :confirm_email, &1)
@@ -34,7 +51,7 @@ defmodule UnderscorecoreWeb.UserSettingsController do
   end
 
   def confirm_email(conn, %{"token" => token}) do
-    case Accounts.update_user_email(conn.assigns.current_user, token) do
+    case App.update_user_email(conn.assigns.current_user, token) do
       :ok ->
         conn
         |> put_flash(:info, "Email changed successfully.")
@@ -50,7 +67,7 @@ defmodule UnderscorecoreWeb.UserSettingsController do
   def update_password(conn, %{"current_password" => password, "user" => user_params}) do
     user = conn.assigns.current_user
 
-    case Accounts.update_user_password(user, password, user_params) do
+    case App.update_user_password(user, password, user_params) do
       {:ok, user} ->
         conn
         |> put_flash(:info, "Password updated successfully.")
@@ -66,7 +83,8 @@ defmodule UnderscorecoreWeb.UserSettingsController do
     user = conn.assigns.current_user
 
     conn
-    |> assign(:email_changeset, Accounts.change_user_email(user))
-    |> assign(:password_changeset, Accounts.change_user_password(user))
+    |> assign(:email_changeset, App.change_user_email(user))
+    |> assign(:password_changeset, App.change_user_password(user))
+    |> assign(:info_changeset, App.change_user_info(user))
   end
 end

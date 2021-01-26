@@ -1,15 +1,31 @@
-<h1>Resend confirmation instructions</h1>
+<div class="container mx-auto">
+  {{>authentication_station}}
+  
+  <div class="h-8"></div>
 
-<%= form_for :user, Routes.user_confirmation_path(@conn, :create), fn f -> %>
-  <%= label f, :email %>
-  <%= email_input f, :email, required: true %>
+  {{#>page_title }}
+    resend confirmation
+  {{/page_title}}
 
-  <div>
-    <%= submit "Resend confirmation instructions" %>
+  <div class="h-4"></div>
+
+  <div class="mx-auto w-full bg-gray-900 p-4 rounded">
+    <div class="max-w-md">
+      <%= form_for :user, Routes.user_confirmation_path(@conn, :create), fn f -> %>   
+        <div class="space-y-4">
+          <div class="space-y-8">
+            <div class="space-y-2">
+              <%= label f, :email, "email", class: "{{>style_form_label}}" %>
+              <%= email_input f, :email, class: "{{>style_form_text_input}}", placeholder: "email" %>
+            </div>
+            <div>
+              {{#>primary_button}}
+                send
+              {{/primary_button}}
+            </div>
+          </div>
+        </div>
+      <% end %>
+    </div>
   </div>
-<% end %>
-
-<p>
-  <%= link "Register", to: Routes.user_registration_path(@conn, :new) %> |
-  <%= link "Log in", to: Routes.user_session_path(@conn, :new) %>
-</p>
+</div>

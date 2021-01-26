@@ -1,26 +1,26 @@
 <%= form_for @changeset, @action, fn f -> %>
-  <%= if @changeset.action do %>
-    {{#>error_alert }}
-      There were errors with your submission
-    {{/error_alert}}
-    <div class="h-2"></div>
-  <% end %>
-
-  <div class="space-y-1">
-    <%= label f, :name, class: "text-gray-400 text-xs font-medium leading-none" do %>
-      name
-    <% end %> 
-    <%= text_input f, :name, class: "text-input", placeholder: "name" %>
-    <%= if error_map(@changeset)[:name] do %>
-      <div class="text-red-500 text-sm">
-        <%= error_map(@changeset)[:name] %>
-      </div>
+  <div class="space-y-4">
+    <%= if @changeset.action do %>
+      {{#>error_alert }}
+        There were errors with your submission
+      {{/error_alert}}
     <% end %>
+    <div class="space-y-4">
+      <div class="space-y-2">
+        <%= label f, :name, "name", class: "{{>style_form_label}}" %>
+        <%= text_input f, :name, class: "{{>style_form_text_input}}", placeholder: "name" %>
+        {{>form_error key=":name" changeset="@changeset"}}
+      </div>
+      <div class="space-y-2">
+        <%= label f, :description, "description", class: "{{>style_form_label}}" %>
+        <%= textarea f, :description, class: "{{>style_form_text_input}}", placeholder: "description" %>
+        {{>form_error key=":description" changeset="@changeset"}}
+      </div>
+      <div>
+        {{#>primary_button}}
+          save
+        {{/primary_button}}
+      </div>
+    </div>
   </div>
-
-  <div class="h-4"></div>
-
-  {{#>primary_button }}
-    save
-  {{/primary_button}}
 <% end %>

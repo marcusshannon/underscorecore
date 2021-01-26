@@ -1,14 +1,14 @@
 defmodule UnderscorecoreWeb.CoreControllerTest do
   use UnderscorecoreWeb.ConnCase
 
-  alias Underscorecore.Cores
+  alias Underscorecore.App
 
   @create_attrs %{name: "some name", order: []}
   @update_attrs %{name: "some updated name", order: []}
   @invalid_attrs %{name: nil, order: nil}
 
   def fixture(:core) do
-    {:ok, core} = Cores.create_core(@create_attrs)
+    {:ok, core} = App.create_core(@create_attrs)
     core
   end
 

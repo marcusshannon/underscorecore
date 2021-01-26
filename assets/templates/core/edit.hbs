@@ -9,19 +9,17 @@
 
   <div class="h-2"></div>
 
-
   {{#>action_button_container}}
     {{#>action_button }}
       <%= link "back", to: Routes.core_path(@conn, :show, @core) %>
     {{/action_button}}
   {{/action_button_container}}
 
-
   <div class="h-4"></div>
 
-  <div class="bg-gray-900 rounded p-4">
+  <div class="bg-gray-900 p-4 rounded">
+    <div class="max-w-screen-sm">
       <%= render "form.html", Map.put(assigns, :action, Routes.core_path(@conn, :update, @core)) %>
+    </div>
   </div>
-
-
 </div>

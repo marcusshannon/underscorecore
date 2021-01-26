@@ -2,6 +2,7 @@ const Handlebars = require("handlebars");
 const fs = require("fs");
 const glob = require("glob");
 const path = require("path");
+const watch = require("node-watch");
 
 function getFiles() {
   return new Promise((resolve) => {
@@ -51,4 +52,6 @@ async function main() {
   compileFiles(pageFiles);
 }
 
-main();
+watch("./templates", { recursive: true }, () => {
+  main();
+});

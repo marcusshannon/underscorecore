@@ -1,62 +1,44 @@
-<div class="container mx-auto flex flex-col items-center">
+<div class="container mx-auto">
+  {{>authentication_station}}
   
-  <div class="h-4"></div>
-
-  {{#> page_title }}
-    _core
-  {{/page_title}}
-
   <div class="h-8"></div>
 
-  <div class="mx-auto w-full max-w-md">
-    <div class="bg-gray-900 py-4 px-4 shadow rounded px-10">
-      <%= form_for @changeset, Routes.user_registration_path(@conn, :create), fn f -> %>
-        
-        <div class="space-y-6">
+  {{#>page_title }}
+    create account
+  {{/page_title}}
+
+  <div class="h-4"></div>
+
+  <div class="w-full bg-gray-900 p-4 rounded">
+    <div class="max-w-md">
+      <%= form_for @changeset, Routes.user_registration_path(@conn, :create), fn f -> %>   
+        <div class="space-y-4">
           <%= if @changeset.action do %>
             {{#>error_alert}}
               Please check the errors below.
             {{/error_alert}}
           <% end %>
-
-          <div>
-            <%= email_input f, :email, required: true, class: "text-input", placeholder: "email" %>
-            <%= if not is_nil(assigns[:error_map]) and @error_map[:email] do %>
-              <div class="h-1"></div>
-              <div class="text-red-500 text-sm">
-                <%= @error_map[:email] %>
-              </div>
-            <% end %>
-          </div>
-
-          <div>
-            <%= password_input f, :password, required: true, class: "text-input", placeholder: "password" %>
-            <%= if not is_nil(assigns[:error_map]) and @error_map[:password] do %>
-              <div class="h-1"></div>
-              <div class="text-red-500 text-sm">
-                <%= @error_map[:password] %>
-              </div>
-            <% end %>
-          </div>
-
-          <div>
-            {{#>primary_button }}
-              register
-            {{/primary_button}}
-          </div>
-
-          <div class="flex items-center justify-between">
-
-            <div class="text-sm">
-              {{#>link to="Routes.user_reset_password_path(@conn, :new)"}}
-                reset password
-              {{/link}}
+          <div class="space-y-8">
+             <div class="space-y-2">
+              <%= label f, :name, "display name", class: "{{>style_form_label}}" %>
+              <%= text_input f, :name, class: "{{>style_form_text_input}}", placeholder: "display name" %>
+              {{>form_error key=":name" changeset="@changeset"}}
             </div>
-            <div class="text-sm">
-              {{#>link to="Routes.user_session_path(@conn, :new)"}}
-                log in
-              {{/link}}
-            </div>
+             <div class="space-y-2">
+                <%= label f, :email, "email", class: "{{>style_form_label}}" %>
+                <%= email_input f, :email, required: true, class: "{{>style_form_text_input}}", placeholder: "email" %>
+                {{>form_error key=":email" changeset="@changeset"}}
+              </div>
+             <div class="space-y-2">
+                <%= label f, :password, "password", class: "{{>style_form_label}}" %>
+                <%= password_input f, :password, required: true, class: "{{>style_form_text_input}}", placeholder: "password" %>
+                {{>form_error key=":password" changeset="@changeset"}}
+              </div>
+              <div>
+                {{#>primary_button }}
+                  sign up
+                {{/primary_button}}
+              </div>
           </div>
         </div>
       <% end %>

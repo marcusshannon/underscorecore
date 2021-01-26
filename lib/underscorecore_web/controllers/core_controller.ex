@@ -2,21 +2,21 @@ defmodule UnderscorecoreWeb.CoreController do
   use UnderscorecoreWeb, :controller
   import Phoenix.LiveView.Controller
 
-  alias Underscorecore.Cores
-  alias Underscorecore.Cores.Core
+  alias Underscorecore.App
+  alias Underscorecore.Models.Core
 
   def index(conn, _params) do
-    cores = Cores.list_cores()
+    cores = App.list_cores()
     render(conn, "index.html", cores: cores)
   end
 
   def new(conn, _params) do
-    changeset = Cores.change_core(%Core{})
+    changeset = App.change_core(%Core{})
     render(conn, "new.html", changeset: changeset)
   end
 
   def create(conn, %{"core" => core_params}) do
-    case Cores.create_core(core_params) do
+    case App.create_core(conn.assigns.current_user, core_params) do
       {:ok, core} ->
         conn
         |> put_flash(:info, "Core created successfully.")
@@ -28,29 +28,26 @@ defmodule UnderscorecoreWeb.CoreController do
   end
 
   def show(conn, %{"id" => id}) do
-    core = Cores.get_core!(id)
-    core_albums = Cores.get_core_albums(id)
-    render(conn, "show.html", core: core, core_albums: core_albums)
+    core = App.get_core!(id)
+    render(conn, "show.html", core: core)
   end
 
   def edit(conn, %{"id" => id}) do
-    core = Cores.get_core!(id)
-    changeset = Cores.change_core(core)
+    core = App.get_core!(id)
+    changeset = App.change_core(core)
     render(conn, "edit.html", core: core, changeset: changeset)
   end
 
   def edit_core_albums(conn, %{"id" => id}) do
-    IO.inspect(conn)
-
     live_render(conn, UnderscorecoreWeb.EditCoreAlbumsLive,
       session: %{"core_id" => id, "current_user" => conn.assigns.current_user}
     )
   end
 
   def update(conn, %{"id" => id, "core" => core_params}) do
-    core = Cores.get_core!(id)
+    core = App.get_core!(id)
 
-    case Cores.update_core(core, core_params) do
+    case App.update_core(core, core_params) do
       {:ok, core} ->
         conn
         |> put_flash(:info, "Core updated successfully.")
@@ -62,38 +59,37 @@ defmodule UnderscorecoreWeb.CoreController do
   end
 
   def delete(conn, %{"id" => id}) do
-    core = Cores.get_core!(id)
-    {:ok, _core} = Cores.delete_core(core)
+    core = App.get_core!(id)
+    {:ok, _core} = App.delete_core(core)
 
     conn
     |> put_flash(:info, "Core deleted successfully.")
-    |> redirect(to: Routes.core_path(conn, :index))
+    |> redirect(to: Routes.user_path(conn, :show, core.user))
   end
 
   def add_search(conn, %{"id" => id}) do
-    core = Cores.get_core!(id)
+    core = App.get_core!(id)
     render(conn, "add_search.html", core: core)
   end
 
   def add(conn, %{"id" => id, "core_album" => core_album_params}) do
-    Underscorecore.Cores.create_core_album(core_album_params)
-    core = Cores.get_core!(id)
+    Underscorecore.App.create_core_album(core_album_params)
+    core = App.get_core!(id)
 
     conn
-    |> put_flash(:success, "Album successfully added to core")
+    |> put_flash(:info, "Album successfully added to core")
     |> render("add_search.html", core: core)
   end
 
   def search(conn, %{"id" => id, "search" => search_params}) do
-    core = Cores.get_core!(id)
-    search_results = Underscorecore.Search.search(search_params["term"])
+    core = App.get_core!(id)
+    search_results = App.search(search_params["term"])
     render(conn, "add_search.html", core: core, search_results: search_results)
   end
 
   def delete_core_album(conn, %{"core_id" => core_id, "album_id" => album_id}) do
-    Cores.delete_core_album(core_id, album_id)
-    core = Cores.get_core!(core_id)
-    core_albums = Cores.get_core_albums(core_id)
-    render(conn, "edit_albums.html", core: core, core_albums: core_albums)
+    App.delete_core_album!(core_id, album_id)
+    core = App.get_core!(core_id)
+    render(conn, "edit_albums.html", core: core, albums: core.albums)
   end
 end

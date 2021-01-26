@@ -2,7 +2,7 @@ defmodule UnderscorecoreWeb.UserAuth do
   import Plug.Conn
   import Phoenix.Controller
 
-  alias Underscorecore.Accounts
+  alias Underscorecore.App
   alias UnderscorecoreWeb.Router.Helpers, as: Routes
 
   # Make the remember me cookie valid for 60 days.
@@ -25,7 +25,7 @@ defmodule UnderscorecoreWeb.UserAuth do
   if you are not using LiveView.
   """
   def log_in_user(conn, user, params \\ %{}) do
-    token = Accounts.generate_user_session_token(user)
+    token = App.generate_user_session_token(user)
     user_return_to = get_session(conn, :user_return_to)
 
     conn
@@ -33,7 +33,8 @@ defmodule UnderscorecoreWeb.UserAuth do
     |> put_session(:user_token, token)
     |> put_session(:live_socket_id, "users_sessions:#{Base.url_encode64(token)}")
     |> maybe_write_remember_me_cookie(token, params)
-    |> redirect(to: user_return_to || signed_in_path(conn))
+    |> fetch_current_user(nil)
+    |> (fn updated_conn -> redirect(updated_conn, to: user_return_to || signed_in_path(updated_conn)) end).()
   end
 
   defp maybe_write_remember_me_cookie(conn, token, %{"remember_me" => "true"}) do
@@ -72,7 +73,7 @@ defmodule UnderscorecoreWeb.UserAuth do
   """
   def log_out_user(conn) do
     user_token = get_session(conn, :user_token)
-    user_token && Accounts.delete_session_token(user_token)
+    user_token && App.delete_session_token(user_token)
 
     if live_socket_id = get_session(conn, :live_socket_id) do
       UnderscorecoreWeb.Endpoint.broadcast(live_socket_id, "disconnect", %{})
@@ -90,7 +91,7 @@ defmodule UnderscorecoreWeb.UserAuth do
   """
   def fetch_current_user(conn, _opts) do
     {user_token, conn} = ensure_user_token(conn)
-    user = user_token && Accounts.get_user_by_session_token(user_token)
+    user = user_token && App.get_user_by_session_token(user_token)
     assign(conn, :current_user, user)
   end
 
@@ -147,5 +148,7 @@ defmodule UnderscorecoreWeb.UserAuth do
 
   defp maybe_store_return_to(conn), do: conn
 
-  defp signed_in_path(_conn), do: "/"
+  defp signed_in_path(conn) do
+    Routes.user_path(conn, :show, conn.assigns.current_user)
+  end
 end

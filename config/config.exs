@@ -16,7 +16,8 @@ config :underscorecore, UnderscorecoreWeb.Endpoint,
   secret_key_base: "GuxJxjWvK/W5lF+z3i2lHa2+kR8R3v96Pkgf2z0CwbZd+61iqPo9C2KB5waR8Xf6",
   render_errors: [view: UnderscorecoreWeb.ErrorView, accepts: ~w(html json), layout: false],
   pubsub_server: Underscorecore.PubSub,
-  live_view: [signing_salt: "PajiI7zP"]
+  live_view: [signing_salt: "PajiI7zP"],
+  watchers: [npm: ["run", "build-templates", "--prefix", "./assets"]]
 
 # Configures Elixir's Logger
 config :logger, :console,

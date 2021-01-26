@@ -1,7 +1,7 @@
 <div class="container mx-auto">
   {{> authentication_station}}
 
-  {{#> page_title }}
+  {{#>page_title }}
     Cores
   {{/page_title}}
   
@@ -19,7 +19,7 @@
   <ul>
     <%= for core <- @cores do %>
       <li>
-        {{#> action_link }}
+        {{#>action_link }}
           <%= link core.name, to: Routes.core_path(@conn, :show, core) %>
         {{/action_link}}
       </li>

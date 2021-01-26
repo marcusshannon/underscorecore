@@ -14,7 +14,7 @@ defmodule Underscorecore.AccountsFixtures do
         email: unique_user_email(),
         password: valid_user_password()
       })
-      |> Underscorecore.Accounts.register_user()
+      |> Underscorecore.App.register_user()
 
     user
   end

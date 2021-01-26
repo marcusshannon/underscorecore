@@ -1,29 +1,42 @@
-<div class="bg-white">
+<div class="container mx-auto">
+  {{>authentication_station}}
+  
+  <div class="h-8"></div>
 
-<h1>Reset password</h1>
+  {{#>page_title }}
+    reset password
+  {{/page_title}}
 
-<%= form_for @changeset, Routes.user_reset_password_path(@conn, :update, @token), fn f -> %>
-  <%= if @changeset.action do %>
-    <div class="alert alert-danger">
-      <p>Oops, something went wrong! Please check the errors below.</p>
+  <div class="h-4"></div>
+
+  <div class="w-full bg-gray-900 p-4 rounded">
+    <div class="max-w-md">
+      <%= form_for @changeset, Routes.user_settings_path(@conn, :update_email), fn f -> %>   
+        <div class="space-y-4">
+          <%= if @changeset.action do %>
+            {{#>error_alert}}
+              Please check the errors below.
+            {{/error_alert}}
+          <% end %>
+          <div class="space-y-8">
+             <div class="space-y-2">
+                <%= label f, :email, "email", class: "{{>style_form_label}}" %>
+                <%= email_input f, :email, required: true, class: "{{>style_form_text_input}}", placeholder: "email" %>
+                {{>form_error key=":email" changeset="@changeset"}}
+              </div>
+             <div class="space-y-2">
+                <%= label f, :password, "password", class: "{{>style_form_label}}" %>
+                <%= password_input f, :password, required: true, class: "{{>style_form_text_input}}", placeholder: "password" %>
+                {{>form_error key=":password" changeset="@changeset"}}
+              </div>
+              <div>
+                {{#>primary_button }}
+                  sign up
+                {{/primary_button}}
+              </div>
+          </div>
+        </div>
+      <% end %>
     </div>
-  <% end %>
-
-  <%= label f, :password, "New password" %>
-  <%= password_input f, :password, required: true %>
-  <%= error_tag f, :password %>
-
-  <%= label f, :password_confirmation, "Confirm new password" %>
-  <%= password_input f, :password_confirmation, required: true %>
-  <%= error_tag f, :password_confirmation %>
-
-  <div>
-    <%= submit "Reset password" %>
   </div>
-<% end %>
-
-<p>
-  <%= link "Register", to: Routes.user_registration_path(@conn, :new) %> |
-  <%= link "Log in", to: Routes.user_session_path(@conn, :new) %>
-</p>
 </div>

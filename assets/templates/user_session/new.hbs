@@ -1,58 +1,54 @@
-<div class="container mx-auto flex flex-col items-center">
+<div class="container mx-auto">
+  {{>authentication_station}}
   
-  <div class="h-4"></div>
-
-  {{#> page_title }}
-    _core
-  {{/page_title}}
-
   <div class="h-8"></div>
 
-  <div class="mx-auto w-full max-w-md">
-    <div class="bg-gray-900 py-4 px-4 shadow rounded">
+  {{#>page_title }}
+    log in
+  {{/page_title}}
+
+  <div class="h-4"></div>
+
+  {{#>action_button_container}}
+    {{#>action_button }}
+      <%= link "forgot password", to: Routes.user_reset_password_path(assigns[:conn] || assigns[:socket], :new) %>
+    {{/action_button}}
+    {{#>action_button }}
+      <%= link "resend confirmation", to: Routes.user_confirmation_path(assigns[:conn] || assigns[:socket], :new) %>
+    {{/action_button}}
+  {{/action_button_container}}
+
+  <div class="h-4"></div>
+
+  <div class="mx-auto w-full bg-gray-900 p-4 rounded">
+    <div class="max-w-md">
       <%= form_for @conn, Routes.user_session_path(@conn, :create), [as: :user], fn f -> %>   
-        
-        
-        <div class="space-y-6">
-        <%= if @error_message do %>
-          {{#>error_alert }}
-            <%= @error_message %>
-          {{/error_alert}}
-        <% end %>
-
-          <div>
-            <%= email_input f, :email, required: true, class: "text-input", placeholder: "email" %>
-          </div>
-
-          <div>
-            <%= password_input f, :password, required: true, class: "text-input", placeholder: "password" %>
-          </div>
-
-          <div>
-            {{#>primary_button }}
-              log in
-            {{/primary_button}}
-          </div>
-
-          <div class="flex items-center">
-            <%= checkbox f, :remember_me, class: "h-4 w-4 text-gray-600 rounded" %>
-            <div class="w-2"></div>
-            <%= label f, :email, class: "text-sm text-gray-200" do %>
-              remember me
-            <% end %>
-          </div>
-
-          <div class="flex items-center justify-between">
-            <div class="text-sm">
-              {{#>link to="Routes.user_registration_path(@conn, :new)"}}
-                reset password
-              {{/link}}
+        <div class="space-y-4">
+          <%= if @error_message do %>
+            {{#>error_alert}}
+              <%= @error_message %>
+            {{/error_alert}}
+          <% end %>
+          <div class="space-y-8">
+            <div class="space-y-2">
+              <%= label f, :email, "email", class: "{{>style_form_label}}" %>
+              <%= email_input f, :email, required: true, class: "{{>style_form_text_input}}", placeholder: "email" %>
             </div>
-
-            <div class="text-sm">
-              {{#>link to="Routes.user_registration_path(@conn, :new)"}}
-                register
-              {{/link}}
+            <div class="space-y-2">
+              <%= label f, :password, "password", class: "{{>style_form_label}}" %>
+              <%= password_input f, :password, required: true, class: "{{>style_form_text_input}}", placeholder: "password" %>
+            </div>
+            <div class="flex items-center">
+              <%= checkbox f, :remember_me, class: "h-4 w-4 text-gray-600 rounded" %>
+              <div class="w-2"></div>
+              <%= label f, :remember_me, class: "text-sm text-gray-200" do %>
+                remember me
+              <% end %>
+            </div>
+            <div>
+              {{#>primary_button}}
+                log in
+              {{/primary_button}}
             </div>
           </div>
         </div>

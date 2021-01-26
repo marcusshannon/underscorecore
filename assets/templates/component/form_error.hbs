@@ -1,0 +1,5 @@
+<%= if {{{changeset}}}.action && error_map({{{changeset}}})[{{{key}}}]  do %>
+  <div class="text-red-500 text-xs">
+    <%= error_map({{{changeset}}})[{{{key}}}] %>
+  </div>
+<% end %>

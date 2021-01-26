@@ -50,7 +50,8 @@ defmodule Underscorecore.MixProject do
       {:html_entities, "~> 0.5.1"},
       {:phoenix_live_view, "~> 0.15.0"},
       {:floki, "~> 0.29.0", only: :test},
-      {:phx_gen_auth, "~> 0.5", only: [:dev], runtime: false}
+      {:phx_gen_auth, "~> 0.5", only: [:dev], runtime: false},
+      {:earmark, "~> 1.4"}
     ]
   end
 

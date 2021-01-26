@@ -1,6 +1,8 @@
-defmodule Underscorecore.Accounts.UserToken do
+defmodule Underscorecore.Models.UserToken do
   use Ecto.Schema
   import Ecto.Query
+
+  alias Underscorecore.Models.{UserToken, User}
 
   @hash_algorithm :sha256
   @rand_size 32
@@ -13,10 +15,10 @@ defmodule Underscorecore.Accounts.UserToken do
   @session_validity_in_days 60
 
   schema "users_tokens" do
-    field :token, :binary
-    field :context, :string
-    field :sent_to, :string
-    belongs_to :user, Underscorecore.Accounts.User
+    field(:token, :binary)
+    field(:context, :string)
+    field(:sent_to, :string)
+    belongs_to(:user, User)
 
     timestamps(updated_at: false)
   end
@@ -28,7 +30,7 @@ defmodule Underscorecore.Accounts.UserToken do
   """
   def build_session_token(user) do
     token = :crypto.strong_rand_bytes(@rand_size)
-    {token, %Underscorecore.Accounts.UserToken{token: token, context: "session", user_id: user.id}}
+    {token, %UserToken{token: token, context: "session", user_id: user.id}}
   end
 
   @doc """
@@ -38,10 +40,11 @@ defmodule Underscorecore.Accounts.UserToken do
   """
   def verify_session_token_query(token) do
     query =
-      from token in token_and_context_query(token, "session"),
+      from(token in token_and_context_query(token, "session"),
         join: user in assoc(token, :user),
         where: token.inserted_at > ago(@session_validity_in_days, "day"),
         select: user
+      )
 
     {:ok, query}
   end
@@ -63,7 +66,7 @@ defmodule Underscorecore.Accounts.UserToken do
     hashed_token = :crypto.hash(@hash_algorithm, token)
 
     {Base.url_encode64(token, padding: false),
-     %Underscorecore.Accounts.UserToken{
+     %UserToken{
        token: hashed_token,
        context: context,
        sent_to: sent_to,
@@ -83,10 +86,11 @@ defmodule Underscorecore.Accounts.UserToken do
         days = days_for_context(context)
 
         query =
-          from token in token_and_context_query(hashed_token, context),
+          from(token in token_and_context_query(hashed_token, context),
             join: user in assoc(token, :user),
             where: token.inserted_at > ago(^days, "day") and token.sent_to == user.email,
             select: user
+          )
 
         {:ok, query}
 
@@ -109,8 +113,9 @@ defmodule Underscorecore.Accounts.UserToken do
         hashed_token = :crypto.hash(@hash_algorithm, decoded_token)
 
         query =
-          from token in token_and_context_query(hashed_token, context),
+          from(token in token_and_context_query(hashed_token, context),
             where: token.inserted_at > ago(@change_email_validity_in_days, "day")
+          )
 
         {:ok, query}
 
@@ -123,17 +128,17 @@ defmodule Underscorecore.Accounts.UserToken do
   Returns the given token with the given context.
   """
   def token_and_context_query(token, context) do
-    from Underscorecore.Accounts.UserToken, where: [token: ^token, context: ^context]
+    from(UserToken, where: [token: ^token, context: ^context])
   end
 
   @doc """
   Gets all tokens for the given user for the given contexts.
   """
   def user_and_contexts_query(user, :all) do
-    from t in Underscorecore.Accounts.UserToken, where: t.user_id == ^user.id
+    from(t in UserToken, where: t.user_id == ^user.id)
   end
 
   def user_and_contexts_query(user, [_ | _] = contexts) do
-    from t in Underscorecore.Accounts.UserToken, where: t.user_id == ^user.id and t.context in ^contexts
+    from(t in UserToken, where: t.user_id == ^user.id and t.context in ^contexts)
   end
 end

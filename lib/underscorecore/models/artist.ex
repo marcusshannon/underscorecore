@@ -1,4 +1,4 @@
-defmodule Underscorecore.Music.Artist do
+defmodule Underscorecore.Models.Artist do
   use Ecto.Schema
 
   schema "artists" do

@@ -8,7 +8,7 @@ defmodule UnderscorecoreWeb.ArtistControllerTest do
   @invalid_attrs %{external_id: nil, name: nil}
 
   def fixture(:artist) do
-    {:ok, artist} = Music.create_artist(@create_attrs)
+    {:ok, artist} = App.create_artist(@create_attrs)
     artist
   end
 
